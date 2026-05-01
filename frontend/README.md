@@ -1,4 +1,4 @@
-# FarmEasy Frontend Application
+# FarmEasy Frontend Application.
 
 The frontend module is a high-performance React application bundled by Vite, designed for professional-grade user interactions.
 
