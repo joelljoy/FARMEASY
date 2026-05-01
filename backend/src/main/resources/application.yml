@@ -1,6 +1,11 @@
 spring:
   application:
     name: frameasy-backend
+  cloud:
+    gcp:
+      sql:
+        database-name: farmeasy
+        instance-connection-name: farmeasy-495005:us-central1:farmeasy-db-instance
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql:///farmeasy?cloudSqlInstance=farmeasy-495005:us-central1:farmeasy-db-instance&socketFactory=com.google.cloud.sql.mysql.SocketFactory}
     username: ${SPRING_DATASOURCE_USERNAME:root}

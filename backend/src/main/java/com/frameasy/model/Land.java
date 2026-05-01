@@ -39,6 +39,7 @@ public class Land {
     private String imageUrl;
 
     private String area;
+    private String availability;
     private String location;
     private Double latitude;
     private Double longitude;
