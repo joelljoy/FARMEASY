@@ -1,23 +1,25 @@
 spring:
   application:
     name: frameasy-backend
-  # Active profile is resolved from the SPRING_PROFILES_ACTIVE environment variable.
-  # Default: local (standard JDBC, no Cloud SQL dependency active)
-  # Production (Cloud Run): set SPRING_PROFILES_ACTIVE=prod
+
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:local}
 
-  # CRITICAL: Disable the Google Cloud SQL EnvironmentPostProcessor globally.
-  # This processor fires during ApplicationEnvironmentPreparedEvent — before
-  # profile-specific yml files are merged — making it impossible to disable
-  # it from within a profile file. Setting it to false here (in the base config)
-  # is the only reliable mechanism to prevent it from crashing local startup.
-  # The prod profile overrides this to true via a SPRING_CLOUD_GCP_SQL_ENABLED
-  # environment variable injected at Cloud Run deployment time.
   cloud:
     gcp:
       sql:
         enabled: ${SPRING_CLOUD_GCP_SQL_ENABLED:false}
+
+  # ✅ H2 DATABASE CONFIG (FIXED)
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+  h2:
+    console:
+      enabled: true
 
   jpa:
     hibernate:
@@ -25,13 +27,15 @@ spring:
     show-sql: false
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
+        dialect: org.hibernate.dialect.H2Dialect
         format_sql: false
     open-in-view: false
+
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -44,28 +48,30 @@ spring:
           starttls:
             enable: true
 
-# JSON Web Token configuration
+# JWT config
 jwt:
   secret: ${JWT_SECRET:FrameasySuperSecretKeyForJWTTokenGeneration2024Production}
   expiration-ms: 86400000
 
-# Government schemes API configuration
+# API config
 schemes:
   api-url: https://api.data.gov.in/resource
   cache-duration-hours: 24
 
-# File storage paths
+# File upload
 upload:
   dir: ./uploads
   equipment: equipment
   land: land
   trade: trade
 
+# Server config
 server:
   port: ${PORT:8080}
   servlet:
     context-path: /api
 
+# Logging
 logging:
   level:
     root: WARN
