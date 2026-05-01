@@ -2,9 +2,9 @@ spring:
   application:
     name: frameasy-backend
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3307/frameasy?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql:///farmeasy?cloudSqlInstance=farmeasy-495005:us-central1:farmeasy-db-instance&socketFactory=com.google.cloud.sql.mysql.SocketFactory}
     username: ${SPRING_DATASOURCE_USERNAME:root}
-    password: ${SPRING_DATASOURCE_PASSWORD:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:Samruddhi@2006}
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 10
