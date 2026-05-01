@@ -1,5 +1,5 @@
 -- FRAM EASY - MySQL Schema
--- Run this to initialize database (optional; JPA can create tables with ddl-auto: update)
+-- Run this to initialize database (optional; JPA can create tables with ddl-auto: update.)
 
 CREATE DATABASE IF NOT EXISTS frameasy CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE frameasy;
