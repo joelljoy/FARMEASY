@@ -39,6 +39,16 @@ public class AgreementService {
         otpService.createAndSendOtp(buyerEmail, "AGREEMENT");
     }
 
+    /**
+     * Creates a new agreement between a buyer and a seller for a specific item (Equipment, Land, or Trade).
+     * Validates the buyer's OTP before proceeding. If valid, generates a PDF of the agreement
+     * and automatically emails it to both parties.
+     * Additionally, updates the availability status of Equipment or Land to "Rented".
+     *
+     * @param buyerId The ID of the user purchasing or renting the item.
+     * @param req     The agreement request containing details such as reference ID, price, and terms.
+     * @return The created AgreementDto, or null if OTP validation fails or the item is not found.
+     */
     @Transactional
     public AgreementDto createAgreement(Long buyerId, AgreementRequest req) {
         if (!otpService.verifyOtp(userRepository.findById(buyerId).map(User::getEmail).orElse(""), req.getOtp(), "AGREEMENT")) {
@@ -51,12 +61,22 @@ public class AgreementService {
         if ("EQUIPMENT".equals(req.getAgreementType())) {
             Equipment eq = equipmentRepository.findById(req.getReferenceId()).orElse(null);
             if (eq == null) return null;
+            
+            // Mark as rented
+            eq.setAvailability("Rented");
+            equipmentRepository.save(eq);
+            
             seller = userRepository.findById(eq.getUserId()).orElse(null);
             itemTitle = eq.getTitle();
             itemDetails = "Equipment: " + eq.getTitle() + ", Price per day: " + eq.getPricePerDay() + ", Location: " + eq.getLocation();
         } else if ("LAND".equals(req.getAgreementType())) {
             Land land = landRepository.findById(req.getReferenceId()).orElse(null);
             if (land == null) return null;
+            
+            // Mark as rented
+            land.setAvailability("Rented");
+            landRepository.save(land);
+            
             seller = userRepository.findById(land.getUserId()).orElse(null);
             itemTitle = land.getTitle();
             itemDetails = "Land: " + land.getTitle() + ", Price per month: " + land.getPricePerMonth() + ", Area: " + land.getArea();

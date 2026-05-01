@@ -132,9 +132,12 @@ export default function EquipmentPage() {
         <Row xs={1} md={2} lg={3} className="g-4">
           {list.map((item) => (
             <Col key={item.id}>
-              <Card className="h-100 card-modern border-0">
+              <Card className={`h-100 card-modern border-0 ${item.availability === 'Rented' ? 'rented-item' : ''}`}>
                 {item.imageUrl && (
                   <Card.Img variant="top" src={item.imageUrl} style={{ height: 160, objectFit: 'cover' }} alt="" />
+                )}
+                {item.availability === 'Rented' && (
+                  <div className="rented-overlay">Rented</div>
                 )}
                 <Card.Body>
                   <Card.Title>{item.title}</Card.Title>
@@ -143,9 +146,15 @@ export default function EquipmentPage() {
                   {item.distanceKm != null && (
                     <Card.Text className="small">{item.distanceKm.toFixed(1)} km away</Card.Text>
                   )}
-                  <Link to={`/equipment/${item.id}`} className="btn btn-primary btn-sm">
-                    {t('equipment.viewAndContact')}
-                  </Link>
+                  {item.availability === 'Rented' ? (
+                    <button className="btn btn-secondary btn-sm" disabled>
+                      {t('equipment.rented', 'Rented')}
+                    </button>
+                  ) : (
+                    <Link to={`/equipment/${item.id}`} className="btn btn-primary btn-sm">
+                      {t('equipment.viewAndContact')}
+                    </Link>
+                  )}
                 </Card.Body>
               </Card>
             </Col>

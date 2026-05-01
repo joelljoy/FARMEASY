@@ -53,8 +53,10 @@ public class Equipment {
     private Boolean isActive = true;
 
     @Column(name = "created_at")
+    @Builder.Default
     private Instant createdAt = Instant.now();
 
     @Column(name = "updated_at")
+    @Builder.Default
     private Instant updatedAt = Instant.now();
 }
