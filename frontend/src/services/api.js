@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Use same-origin proxy in dev by default, but allow overriding for production deployments.
-// Example: VITE_API_BASE="http://localhost:8080/api"
+// Example: VITE_API_BASE="https://farmeasy-backend-ap8q.onrender.com"
 const API_BASE = import.meta.env.VITE_API_BASE || '/api';
 
 const api = axios.create({
