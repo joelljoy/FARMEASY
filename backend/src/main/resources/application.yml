@@ -36,7 +36,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: krushi.app25@gmail.com
-    password: kfshcgrgdqiaance
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -62,7 +62,7 @@ upload:
   trade: trade
 
 server:
-  port: 8080
+  port: ${PORT:8080}
   servlet:
     context-path: /api
 
